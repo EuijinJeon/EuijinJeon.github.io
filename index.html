@@ -43,6 +43,14 @@
     @keyframes wiLine{ from{ opacity:0; transform:scaleX(0); } to{ opacity:1; transform:scaleX(1); } }
     @keyframes wiZoom{ from{ transform:scale(1.08); } to{ transform:scale(1); } }
     @keyframes wiGlow{ 0%,100%{ opacity:0.55; } 50%{ opacity:1; } }
+    /* Remove the one-tap "save image" paths: iOS long-press callout, drag-to-save,
+       and selection. Deterrence only — see the note in the script below. Scoped to
+       images so page text stays selectable and copyable. */
+    img{
+      -webkit-touch-callout:none;
+      -webkit-user-select:none; user-select:none;
+      -webkit-user-drag:none;
+    }
     @media (prefers-reduced-motion: reduce){
       header, header *, [data-wi-hero], [data-wi-hero] *{ animation:none !important; opacity:1 !important; transform:none !important; }
       [data-wi-decor]{ display:none !important; }
@@ -577,6 +585,18 @@
 
   play();
   render();
+
+  /* ---------------- discourage casual image saving ---------------- */
+  // This is friction, not protection. Every photo the page displays has already
+  // been downloaded by the browser, and the repo is public — anyone who opens
+  // DevTools, runs curl, or clones the repo still gets the originals. All this
+  // does is remove the one-gesture save paths (long-press, right-click, drag),
+  // which is what a guest on a phone would actually reach for.
+  ['contextmenu', 'dragstart'].forEach(function (ev) {
+    document.addEventListener(ev, function (e) {
+      if (e.target && e.target.tagName === 'IMG') e.preventDefault();
+    });
+  });
 })();
 </script>
 </body>
