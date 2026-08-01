@@ -1,7 +1,6 @@
 # local source photos (originals kept outside the deployed site)
 KakaoTalk_Photo_*.jpeg
-# scratch files for the in-progress g10 landscape swap
+# scratch files from the g10 landscape swap (g10w.webp itself is now shipped)
 _src_landscape.jpeg
 _compare.html
-photos/g10w.webp
 .DS_Store
